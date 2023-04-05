@@ -35,7 +35,7 @@ RUN dotnet build "SimpleWebAppMVC.csproj" /p:AssemblyVersion=1.0.0.0 -c Release 
 
 FROM build AS publish
 
-RUN dotnet publish "Unity.GraphQL.Gateway.csproj" /p:AssemblyVersion=1.0.0.0 -c Release -o /app/publish
+RUN dotnet publish "SimpleWebAppMVC.csproj" /p:AssemblyVersion=1.0.0.0 -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
