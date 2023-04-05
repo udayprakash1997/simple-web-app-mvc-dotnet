@@ -1,35 +1,38 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
-trigger:
-- master
+trigger: none
+pr: none
 
-pool:
-  vmImage: 'windows-latest'
+# Connect devsecops repository for templates.
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+resources:
+  repositories:
+    - repository: 'Templates'
+      name: 'udayprakash1997'
+      type: github
+      ref: main
+      endpoint: Unity
 
-steps:
-- task: NuGetToolInstaller@1
+# Build Stage
+stages:
+- stage: 'MainStage'
+  displayName: "Build and Push"
+  jobs:
+  - job: Build
+    displayName: Build & Deploy
+    pool:
+     vmImage: ubuntu-latest
+    steps:
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+      - checkout: self
+    # Building Docker Image
+      - template: DockerBuild.yml@Templates
+        parameters:
+          ProjectName: 'dotnet-project'
+          ConnectionTypeName: 'foodalert-prakash'
+          RegistryServiceConnection: 'Acr-connection'
+          WebAppName: 'appservicefoodalerttest11233'
+          repository: 'udaycontainer'
+          containerRegistry: udaycontainer.azurecr.io
+          tag: 'dev-v$(Build.BuildNumber)'
+          token: 'false'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-- task: PublishBuildArtifacts@1
