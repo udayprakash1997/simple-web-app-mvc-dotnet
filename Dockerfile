@@ -22,7 +22,7 @@ COPY "SimpleWebAppMVC/SimpleWebAppMVC.csproj" "SimpleWebAppMVC"
 #RUN mkdir "Unity.GraphQL.Gateway.UnitTests"
 #COPY "Unity.GraphQL.Gateway.UnitTests/Unity.GraphQL.Gateway.UnitTests.csproj" "Unity.GraphQL.Gateway.UnitTests"
 
- #RUN dotnet restore "SimpleWebAppMVC.csproj"
+RUN dotnet restore "SimpleWebAppMVC/SimpleWebAppMVC.csproj"
 #RUN dotnet restore --disable-parallel --locked-mode -s "https://pkgs.dev.azure.com/CitationUnity/_packaging/Citation.Atlas.RedisCache/nuget/v3/index.json" -s "https://api.nuget.org/v3/index.json"
 
 COPY . .
