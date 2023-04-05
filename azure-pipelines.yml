@@ -4,12 +4,12 @@ pr: none
 
 # Connect devsecops repository for templates.
 
-resources:
-  repositories:
-    - repository: 'Templates'
-      name: 'udayprakash1997'
-      type: github
-      ref: main
+#resources:
+ # repositories:
+  #  - repository: 'Templates'
+   #   name: 'udayprakash1997'
+    #  type: github
+     # ref: main
 
 # Build Stage
 stages:
@@ -24,7 +24,7 @@ stages:
 
       - checkout: self
     # Building Docker Image
-      - template: DockerBuild.yml@Templates
+      - template: DockerBuild.yml #@Templates
         parameters:
           ProjectName: 'dotnet-project'
           ConnectionTypeName: 'foodalert-prakash'
