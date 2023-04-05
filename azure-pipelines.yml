@@ -10,7 +10,6 @@ resources:
       name: 'udayprakash1997'
       type: github
       ref: main
-      endpoint: Unity
 
 # Build Stage
 stages:
